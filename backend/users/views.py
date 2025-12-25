@@ -1,7 +1,15 @@
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import User
-from .serializers import RegisterSerializer, UserProfileSerializer
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.mail import send_mail
+from django.urls import reverse
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from django.conf import settings
+from django.shortcuts import get_object_or_404
+from .serializers import RegisterSerializer, UserProfileSerializer, ForgotPasswordSerializer, ResetPasswordSerializer
 
 class RegisterView(CreateAPIView):
     queryset = User.objects.all()
@@ -14,3 +22,46 @@ class ProfileView(RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        serializer = ForgotPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data['email']
+        user = User.objects.filter(email=email).first()
+
+        if user:
+            token = PasswordResetTokenGenerator().make_token(user)
+            reset_link = f"{settings.FRONTEND_URL}/reset-password/{user.pk}/{token}"
+
+            send_mail(
+                subject="Reset your password",
+                message=f"Click the link to reset your password:\n{reset_link}",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+            )
+
+        # Same response whether user exists or not
+        return Response(
+            {"message": "If the email exists, a reset link has been sent."},
+            status=status.HTTP_200_OK
+        )
+
+    
+
+class ResetPasswordView(APIView):
+    def post(self, request, uid, token):
+        user = get_object_or_404(User, pk=uid)
+
+        if not PasswordResetTokenGenerator().check_token(user, token):
+            return Response({"error": "Invalid token"}, status=400)
+
+        serializer = ResetPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user.set_password(serializer.validated_data['new_password'])
+        user.save()
+
+        return Response({"message": "Password reset successful"})
