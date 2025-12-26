@@ -16,14 +16,26 @@ class FeedView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Post.objects.select_related('user').all()
+        return Post.objects.select_related('user').prefetch_related('likes').all()
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request 
+        return context
+    
+
 
 class MyPostsView(ListAPIView):
     serializer_class = PostListSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Post.objects.select_related('user').filter(user=self.request.user)
+        return Post.objects.select_related('user').prefetch_related('likes').filter(user=self.request.user)
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request 
+        return context
     
 
 class PostDeleteView(DestroyAPIView):
