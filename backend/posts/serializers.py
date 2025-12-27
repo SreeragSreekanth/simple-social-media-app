@@ -13,6 +13,8 @@ class PostListSerializer(serializers.ModelSerializer):
     profile_pic = serializers.ImageField(source='user.profile_pic', read_only=True)
     likes_count = serializers.IntegerField(source='likes.count', read_only=True)
     liked_by_user = serializers.SerializerMethodField()
+    comments_count = serializers.IntegerField(source='comments.count', read_only=True)
+
 
 
     class Meta:
@@ -26,6 +28,7 @@ class PostListSerializer(serializers.ModelSerializer):
             'caption',
             'likes_count',
             'liked_by_user',
+            'comments_count',
             'created_at'
         ]
 
