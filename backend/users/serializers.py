@@ -29,9 +29,18 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    followers_count = serializers.IntegerField(
+        source='followers.count',
+        read_only=True
+    )
+    following_count = serializers.IntegerField(
+        source='following.count',
+        read_only=True
+    )
+
     class Meta:
         model = User
-        fields = ['id', 'full_name', 'email', 'bio', 'profile_pic']
+        fields = ['id', 'full_name', 'email', 'bio', 'profile_pic', 'followers_count', 'following_count']
 
 class ForgotPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()

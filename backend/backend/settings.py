@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'posts',
     'likes',
     'comments',
+    'follows',
     
-
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
