@@ -42,12 +42,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
-
+    'rest_framework_simplejwt.token_blacklist',
     'users',
     'posts',
     'likes',
     'comments',
     'follows',
+    'notifications',
     
 ]
 
@@ -146,6 +147,9 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'AUTH_HEADER_TYPES': ('Bearer',),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
 FRONTEND_URL = "http://localhost:3000"

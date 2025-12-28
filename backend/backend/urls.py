@@ -13,6 +13,7 @@ urlpatterns = [
     path('api/likes/', include('likes.urls')),
     path('api/comments/', include('comments.urls')),
     path('api/follows/', include('follows.urls')),
+    path('api/notifications/', include('notifications.urls')),
 
 
 ]

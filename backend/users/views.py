@@ -10,6 +10,8 @@ from rest_framework import status
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from .serializers import RegisterSerializer, UserProfileSerializer, ForgotPasswordSerializer, ResetPasswordSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 class RegisterView(CreateAPIView):
     queryset = User.objects.all()
@@ -65,3 +67,24 @@ class ResetPasswordView(APIView):
         user.save()
 
         return Response({"message": "Password reset successful"})
+
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(
+                {"message": "Logged out successfully"},
+                status=status.HTTP_205_RESET_CONTENT
+            )
+        except Exception:
+            return Response(
+                {"error": "Invalid token"},
+                status=status.HTTP_400_BAD_REQUEST
+            )

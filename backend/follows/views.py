@@ -6,19 +6,14 @@ from users.models import User
 from .models import Follow
 from .serializers import FollowUserSerializer
 from rest_framework.generics import ListAPIView
+from notifications.models import Notification
+
 
 class FollowToggleView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, user_id):
         target_user = get_object_or_404(User, id=user_id)
-
-
-        if not target_user.is_active:
-            return Response(
-                {"error": "User is not available"},
-                status=400
-            )
 
         if request.user == target_user:
             return Response(
@@ -33,13 +28,20 @@ class FollowToggleView(APIView):
 
         if follow:
             follow.delete()
-            return Response({"following": False},status=200)
-        else:
-            Follow.objects.get_or_create(
-                follower=request.user,
-                following=target_user
-            )
-            return Response({"following": True},status=201)
+            return Response({"following": False})
+
+        Follow.objects.create(
+            follower=request.user,
+            following=target_user
+        )
+
+        Notification.objects.create(
+            sender=request.user,
+            receiver=target_user,
+            notification_type='FOLLOW'
+        )
+
+        return Response({"following": True})
 
 
 class IsFollowingView(APIView):
