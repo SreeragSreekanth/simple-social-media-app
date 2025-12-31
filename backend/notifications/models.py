@@ -34,7 +34,6 @@ class Notification(models.Model):
         return f"{self.notification_type} → {self.receiver}"
 
     def save(self, *args, **kwargs):
-        # Auto-generate text if not provided
         if not self.text:
             sender_name = getattr(self.sender, 'full_name', str(self.sender))
             if self.notification_type == 'LIKE':

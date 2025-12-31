@@ -7,6 +7,7 @@ from .models import Follow
 from .serializers import FollowUserSerializer
 from rest_framework.generics import ListAPIView
 from notifications.models import Notification
+from notifications.utils import send_realtime_notification
 
 
 class FollowToggleView(APIView):
@@ -40,6 +41,14 @@ class FollowToggleView(APIView):
             receiver=target_user,
             notification_type='FOLLOW'
         )
+        send_realtime_notification(
+    target_user.id,
+    {
+        "type": "FOLLOW",
+        "sender": request.user.full_name
+    }
+)
+
 
         return Response({"following": True})
 

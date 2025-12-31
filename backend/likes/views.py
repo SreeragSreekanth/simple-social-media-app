@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from posts.models import Post
 from .models import Like
 from notifications.models import Notification
+from notifications.utils import send_realtime_notification
 
 
 class LikeToggleView(APIView):
@@ -27,6 +28,16 @@ class LikeToggleView(APIView):
                     notification_type='LIKE',
                     post_id=post.id
                 )
+
+            send_realtime_notification(
+                post.user.id,
+                {
+            "type": "LIKE",
+            "sender": request.user.full_name,
+            "post_id": post.id
+           }
+           )
+
             return Response({
                 "liked": True,
                 "likes_count": post.likes.count()

@@ -6,6 +6,8 @@ from .models import Comment
 from .serializers import CommentSerializer
 from posts.models import Post
 from notifications.models import Notification
+from notifications.utils import send_realtime_notification
+
 
 class AddCommentView(CreateAPIView):
     serializer_class = CommentSerializer
@@ -26,6 +28,14 @@ class AddCommentView(CreateAPIView):
                 notification_type='COMMENT',
                 post_id=post.id                
             )
+            send_realtime_notification(
+        post.user.id,
+        {
+            "type": "COMMENT",
+            "sender": self.request.user.full_name,
+            "post_id": post.id
+        }
+    )
 
 class CommentListView(ListAPIView):
     serializer_class = CommentSerializer

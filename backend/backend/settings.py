@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,6 +50,8 @@ INSTALLED_APPS = [
     'comments',
     'follows',
     'notifications',
+
+    'channels',
     
 ]
 
@@ -154,3 +157,12 @@ SIMPLE_JWT = {
 
 FRONTEND_URL = "http://localhost:3000"
 DEFAULT_FROM_EMAIL = "noreply@app.com"
+
+
+ASGI_APPLICATION = 'backend.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
