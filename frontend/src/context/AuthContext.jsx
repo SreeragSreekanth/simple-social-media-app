@@ -1,22 +1,30 @@
 import { createContext, useState } from "react";
 import api from "../api/axios";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(
-    !!localStorage.getItem("access")
-  );
+  // Initialize state directly from localStorage
+  const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem("access"));
 
+  // Login function
   const login = async (email, password) => {
-    const res = await api.post("/token/", { email, password });
-    localStorage.setItem("access", res.data.access);
-    localStorage.setItem("refresh", res.data.refresh);
-    setIsAuth(true);
+    try {
+      const res = await api.post("/token/", { email, password });
+      localStorage.setItem("access", res.data.access);
+      localStorage.setItem("refresh", res.data.refresh);
+      setIsAuth(true);
+    } catch (err) {
+      console.error("Login failed:", err);
+      setIsAuth(false);
+    }
   };
 
+  // Logout function
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
     setIsAuth(false);
   };
 

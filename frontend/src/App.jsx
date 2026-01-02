@@ -4,6 +4,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
+import Feed from "./feed/Feed";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -20,8 +21,8 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                <div className="text-center mt-20">Logged in ✅</div>
-              </ProtectedRoute>
+<Feed />             
+ </ProtectedRoute>
             }
           />
         </Routes>
