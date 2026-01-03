@@ -6,6 +6,9 @@ import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import Feed from "./feed/Feed";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./profile/Profile";
+import FollowersList from "./profile/FollowersList";
+import FollowingList from "./profile/FollowingList";
 
 function App() {
   return (
@@ -25,6 +28,32 @@ function App() {
  </ProtectedRoute>
             }
           />
+          <Route
+  path="/profile"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/followers"
+  element={
+    <ProtectedRoute>
+      <FollowersList />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/following"
+  element={
+    <ProtectedRoute>
+      <FollowingList />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { toggleLike, deletePost } from "../services/posts";
+import CommentList from "../comments/CommentList";
+
 
 const PostCard = ({ post, onDeleted }) => {
+  const [showComments, setShowComments] = useState(false);
   const [likes, setLikes] = useState(post.likes_count || 0);
   const [liked, setLiked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -47,12 +50,15 @@ const PostCard = ({ post, onDeleted }) => {
           <span className="font-medium">{post.full_name}</span>
         </div>
 
-        <button
-          onClick={onDelete}
-          className="text-gray-400 hover:text-red-500 text-sm"
-        >
-          Delete
-        </button>
+        {post.is_owner && (
+  <button
+    onClick={onDelete}
+    className="text-gray-400 hover:text-red-500 text-sm"
+  >
+    Delete
+  </button>
+)}
+
       </div>
 
       {/* Image */}
@@ -77,10 +83,19 @@ const PostCard = ({ post, onDeleted }) => {
             {liked ? "💖" : "🤍"} {likes}
           </button>
 
-          <span className="text-gray-600 text-sm">
-            💬 {post.comments_count || 0}
-          </span>
+          <button
+  onClick={() => setShowComments((v) => !v)}
+  className="text-gray-600 text-sm flex items-center gap-1"
+>
+  💬 {post.comments_count || 0}
+</button>
+
         </div>
+        {showComments && (
+  <div className="mt-2 max-h-48 overflow-y-auto border-t pt-2">
+    <CommentList postId={post.id} />
+  </div>
+)}
       </div>
     </div>
   );

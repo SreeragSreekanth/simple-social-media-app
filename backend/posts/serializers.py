@@ -14,6 +14,7 @@ class PostListSerializer(serializers.ModelSerializer):
     likes_count = serializers.IntegerField(source='likes.count', read_only=True)
     liked_by_user = serializers.SerializerMethodField()
     comments_count = serializers.IntegerField(source='comments.count', read_only=True)
+    is_owner = serializers.SerializerMethodField() 
 
 
 
@@ -29,7 +30,8 @@ class PostListSerializer(serializers.ModelSerializer):
             'likes_count',
             'liked_by_user',
             'comments_count',
-            'created_at'
+            'created_at',
+            'is_owner'
         ]
 
     def get_liked_by_user(self, obj):
@@ -37,5 +39,11 @@ class PostListSerializer(serializers.ModelSerializer):
         if user.is_anonymous:
             return False
         return obj.likes.filter(user=user).exists()
+
+    def get_is_owner(self, obj):
+        request = self.context.get('request')
+        if not request or request.user.is_anonymous:
+            return False
+        return obj.user == request.user
 
 
