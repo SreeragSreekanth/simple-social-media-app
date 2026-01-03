@@ -8,3 +8,5 @@ export const createPost = (formData) =>
   });
 export const deletePost = (id) => api.delete(`/posts/delete/${id}/`);
 export const toggleLike = (postId) => api.post(`/likes/toggle/${postId}/`);
+export const fetchFollowingFeed = () =>
+  api.get("/posts/following-feed/");

@@ -4,7 +4,7 @@ from .models import Post
 from .serializers import PostCreateSerializer, PostListSerializer
 from rest_framework.response import Response
 from rest_framework import status
-
+from follows.models import Follow   
 
 class PostCreateView(CreateAPIView):
     serializer_class = PostCreateSerializer
@@ -59,3 +59,16 @@ class PostDeleteView(DestroyAPIView):
 
     def get_queryset(self):
         return Post.objects.filter(user=self.request.user)
+
+class FollowingFeedView(ListAPIView):
+    serializer_class = PostListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        following_ids = Follow.objects.filter(
+            follower=self.request.user
+        ).values_list('following_id', flat=True)
+
+        return Post.objects.filter(
+            user_id__in=following_ids
+        ).select_related('user')

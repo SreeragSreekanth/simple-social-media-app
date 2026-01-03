@@ -57,7 +57,6 @@ const CommentList = ({ postId }) => {
             <span className="font-semibold text-sm">{c.full_name}</span>
             <p className="text-sm">{c.text}</p>
           </div>
-          {/* If backend later adds is_owner, show delete conditionally */}
           <button
             onClick={() => onDelete(c.id)}
             className="text-xs text-red-500"

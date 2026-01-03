@@ -6,7 +6,7 @@ import CommentList from "../comments/CommentList";
 const PostCard = ({ post, onDeleted }) => {
   const [showComments, setShowComments] = useState(false);
   const [likes, setLikes] = useState(post.likes_count || 0);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(post.liked_by_user || false);
   const [loading, setLoading] = useState(false);
 
   const onLike = async () => {

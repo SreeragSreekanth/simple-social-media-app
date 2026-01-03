@@ -9,6 +9,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./profile/Profile";
 import FollowersList from "./profile/FollowersList";
 import FollowingList from "./profile/FollowingList";
+import Notifications from "./notifications/Notifications";
+
 
 function App() {
   return (
@@ -54,6 +56,15 @@ function App() {
     </ProtectedRoute>
   }
 />
+<Route
+  path="/notifications"
+  element={
+    <ProtectedRoute>
+      <Notifications />
+    </ProtectedRoute>
+  }
+/>
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -6,4 +6,6 @@ urlpatterns = [
     path('feed/', FeedView.as_view()),
     path('my-posts/', MyPostsView.as_view()),
     path('delete/<int:pk>/', PostDeleteView.as_view()),
+    path('following-feed/', FollowingFeedView.as_view()),
+
 ]
