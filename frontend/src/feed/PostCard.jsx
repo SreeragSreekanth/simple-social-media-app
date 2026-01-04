@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { toggleLike, deletePost } from "../services/posts";
 import CommentList from "../comments/CommentList";
 
@@ -38,16 +39,23 @@ const PostCard = ({ post, onDeleted }) => {
       {/* Header */}
       <div className="flex items-center justify-between p-3">
         <div className="flex items-center gap-3">
-          {post.profile_pic ? (
-            <img
-              src={post.profile_pic}
-              alt=""
-              className="w-10 h-10 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
-          )}
-          <span className="font-medium">{post.full_name}</span>
+          <img
+  src={
+    post.profile_pic
+      ? post.profile_pic
+      : "/defult.webp"
+  }
+  alt=""
+  className="w-20 h-20 rounded-full"
+/>
+
+          
+  <Link
+    to={`/profile/${post.user_id}`} // use the actual user ID
+    className="font-medium hover:underline"
+  >
+    {post.full_name}
+  </Link>
         </div>
 
         {post.is_owner && (

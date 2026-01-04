@@ -6,3 +6,8 @@ export const fetchFollowers = (userId) =>
 export const fetchFollowing = (userId) =>
   api.get(`/follows/following/${userId}/`);
 
+export const toggleFollow = (userId) =>
+  api.post(`/follows/toggle/${userId}/`);
+
+export const checkFollowStatus = (userId) =>
+  api.get(`/follows/status/${userId}/`);

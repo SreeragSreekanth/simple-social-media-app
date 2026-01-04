@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView,RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -88,3 +88,9 @@ class LogoutView(APIView):
                 {"error": "Invalid token"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        
+
+class UserDetailView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]

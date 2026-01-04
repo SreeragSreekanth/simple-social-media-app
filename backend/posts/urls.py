@@ -7,5 +7,7 @@ urlpatterns = [
     path('my-posts/', MyPostsView.as_view()),
     path('delete/<int:pk>/', PostDeleteView.as_view()),
     path('following-feed/', FollowingFeedView.as_view()),
+    path('user-posts/<int:user_id>/', UserPostsView.as_view()),
+
 
 ]

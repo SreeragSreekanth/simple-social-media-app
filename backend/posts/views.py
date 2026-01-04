@@ -72,3 +72,13 @@ class FollowingFeedView(ListAPIView):
         return Post.objects.filter(
             user_id__in=following_ids
         ).select_related('user')
+
+class UserPostsView(ListAPIView):
+    serializer_class = PostListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        return Post.objects.filter(
+            user_id=user_id
+        ).select_related('user').order_by('-created_at')
