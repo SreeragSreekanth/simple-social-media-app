@@ -43,7 +43,7 @@ const PostCard = ({ post, onDeleted }) => {
   src={
     post.profile_pic
       ? post.profile_pic
-      : "/defult.webp"
+      : "/default.png"
   }
   alt=""
   className="w-20 h-20 rounded-full"

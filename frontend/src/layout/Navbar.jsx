@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { NotificationContext } from "../context/NotificationContext";
+import UserSearch from "../search/UserSearch";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const Navbar = () => {
         <Link to="/" className="font-bold text-lg">
           MiniGram
         </Link>
+
+        <UserSearch />
 
         <div className="flex gap-6 items-center">
           <Link to="/">Home</Link>

@@ -34,7 +34,7 @@ const FollowersList = () => {
           className="flex items-center gap-3 mb-3 p-2 rounded hover:bg-gray-100"
         >
           <img
-            src={u.profile_pic ? u.profile_pic : "/defult.webp"}
+            src={u.profile_pic ? u.profile_pic : "/default.png"}
             className="w-8 h-8 rounded-full object-contain"
           />
           <span>{u.full_name}</span>

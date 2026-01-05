@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
@@ -55,6 +55,15 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+         <div className="text-right">
+            <Link
+              to="/forgot-password"
+              className="text-sm text-blue-600 hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
 
         <button className="bg-black text-white w-full py-2 rounded">
           Login

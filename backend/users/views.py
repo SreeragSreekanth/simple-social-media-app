@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView,RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView,RetrieveAPIView,ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -94,3 +94,16 @@ class UserDetailView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+
+
+class UserSearchView(ListAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        query = self.request.query_params.get("q", "")
+        return User.objects.filter(
+            full_name__icontains=query
+        ).exclude(id=self.request.user.id).exclude(
+        is_staff=True
+    )

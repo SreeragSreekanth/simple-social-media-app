@@ -153,6 +153,8 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
+DEFAULT_FROM_EMAIL = f"No Reply <{EMAIL_HOST_USER}>"
+
 
 
 REST_FRAMEWORK = {
@@ -171,7 +173,6 @@ SIMPLE_JWT = {
 }
 
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
-DEFAULT_FROM_EMAIL = "noreply@app.com"
 
 
 ASGI_APPLICATION = 'backend.asgi.application'

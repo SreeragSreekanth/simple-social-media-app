@@ -46,7 +46,7 @@ const Profile = () => {
   src={
     profile.profile_pic
       ? profile.profile_pic
-      : "/defult.webp"
+      : "/default.png"
   }
   alt=""
   className="w-20 h-20 rounded-full"

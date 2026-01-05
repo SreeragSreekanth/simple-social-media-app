@@ -8,6 +8,8 @@ urlpatterns = [
     path('reset-password/<int:uid>/<str:token>/', ResetPasswordView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('<int:pk>/', UserDetailView.as_view()),
+    path("search/", UserSearchView.as_view()),
+
 
 
 ]

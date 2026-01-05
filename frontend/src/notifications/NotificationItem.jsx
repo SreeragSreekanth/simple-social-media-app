@@ -10,9 +10,9 @@ const NotificationItem = ({ n, onRead }) => {
       navigate(`/profile/${n.sender_id}`);
     }
 
-    if (n.post_id) {
-      navigate(`/post/${n.post_id}`);
-    }
+    // if (n.post_id) {
+    //   navigate(`/post/${n.post_id}`);
+    // }
   };
 
   return (
@@ -24,7 +24,7 @@ const NotificationItem = ({ n, onRead }) => {
     >
       {/* Profile Picture */}
       <img
-        src={n.sender_pic ? n.sender_pic : "/defult.webp"} // optional helper
+        src={n.sender_pic ? n.sender_pic : "/default.png"} // optional helper
         alt=""
         className="w-8 h-8 rounded-full object-contain flex-shrink-0"
       />
